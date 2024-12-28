@@ -1,0 +1,48 @@
+# Entorno virtual
+venv/
+env/
+ENV/
+.venv/
+.ENV/
+
+# Archivos de Python compilados
+*.pyc
+*.pyo
+__pycache__/
+
+# Configuración del sistema operativo
+.DS_Store
+Thumbs.db
+
+# Archivos de configuración del editor de texto/IDE
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Archivos de log
+*.log
+
+# Base de datos local
+db.sqlite3
+
+# Archivos de migraciones creados automáticamente
+**/migrations/**
+
+# Archivos estáticos y media generados
+/static/
+media/
+
+# Archivos y carpetas temporales
+*.tmp
+*.temp
+
+# Archivos de configuración sensibles
+.env
+.env.*
+
+# Archivos de Docker (si usas Docker Compose para desarrollo)
+docker-compose.override.yml
+
+# Archivos de Certbot (si generas certificados con Let's Encrypt)
+certs/
