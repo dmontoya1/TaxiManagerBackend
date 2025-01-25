@@ -14,4 +14,6 @@ urlpatterns = [
     path('transactions/', include('apps.transactions.urls'), name='transactions'),
     # Endpoints de la app accounts
     path('accounts/', include('apps.accounts.urls'), name='accounts'),
+    # Endpoints de la app reports
+    path('reports/', include('apps.reports.urls'), name='reports'),
 ]

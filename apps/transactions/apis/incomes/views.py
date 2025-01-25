@@ -7,10 +7,9 @@ from .serializer import IncomeSerializer
 
 
 class IncomeViewSet(ModelViewSet):
-    queryset = Income.objects.all()
+    queryset = Income.objects.all().order_by('-date')
     serializer_class = IncomeSerializer
     permission_classes = [IsAuthenticated, IsBossOrDriver]
-    ordering = ['-date']
 
     def get_queryset(self):
         # Filtrar los ingresos solo del usuario autenticado

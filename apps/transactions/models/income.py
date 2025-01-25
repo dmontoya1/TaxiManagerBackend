@@ -19,3 +19,4 @@ class Income(Transaction):
     class Meta:
         verbose_name = 'Ingreso'
         verbose_name_plural = 'Ingresos'
+        ordering = ['-date']

@@ -6,10 +6,9 @@ from ...permissions import IsBossOrDriver
 from .serializer import ExpenseSerializer
 
 class ExpenseViewSet(ModelViewSet):
-    queryset = Expense.objects.all()
+    queryset = Expense.objects.all().order_by('-date')
     serializer_class = ExpenseSerializer
     permission_classes = [IsAuthenticated, IsBossOrDriver]
-    ordering = ['-date']
 
     def get_queryset(self):
         user = self.request.user

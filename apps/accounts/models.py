@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.conf import settings
 
 
 class User(AbstractUser):
@@ -23,3 +24,16 @@ class User(AbstractUser):
     class Meta:
         verbose_name = 'Usuario'
         verbose_name_plural = 'Usuarios'
+
+
+class PaymentConfig(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='payment_config')
+    is_percentage = models.BooleanField(default=True)
+    value = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
+
+    def __str__(self):
+        return f"Configuración de pago para {self.user.username}"
+
+    class Meta:
+        verbose_name = "Configuración de Pago"
+        verbose_name_plural = "Configuraciones de Pago"
