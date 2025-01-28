@@ -11,7 +11,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-r(1f_fql4npzc3l!f)7^g%=&c8-3#p%s7r5g&6hn+he1y!wfca'
 
 DEBUG = True
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = [
+    'https://backend-159812486596.us-central1.run.app',
+    'https://frontend-159812486596.us-central1.run.app'
+]
 
 # Application definition
 
@@ -135,4 +138,10 @@ CORS_ALLOWED_ORIGINS = [
 CORS_ALLOW_HEADERS = [
     'content-type',
     'authorization',
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://backend-159812486596.us-central1.run.app',
+    'https://frontend-159812486596.us-central1.run.app'
+    # Add other trusted origins if needed
 ]
