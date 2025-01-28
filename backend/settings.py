@@ -3,6 +3,9 @@ import os
 from datetime import timedelta
 from pathlib import Path
 
+from dotenv import load_dotenv
+load_dotenv()
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'django-insecure-r(1f_fql4npzc3l!f)7^g%=&c8-3#p%s7r5g&6hn+he1y!wfca'
@@ -76,7 +79,7 @@ DATABASES = {
         "NAME": os.getenv("DATABASE_NAME"),
         "USER": os.getenv("DATABASE_USER"),
         "PASSWORD": os.getenv("DATABASE_PASSWORD"),
-        "PORT": "5432",
+        "PORT": "5433",
     }
 }
 
