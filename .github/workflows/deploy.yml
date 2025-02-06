@@ -1,0 +1,38 @@
+name: Deploy to Cloud Run
+
+on:
+  push:
+    branches:
+      - master  # O el nombre de la rama principal
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Authenticate with Google Cloud
+        uses: google-github-actions/auth@v1
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+      - name: Configure Docker
+        run: gcloud auth configure-docker gcr.io
+
+      - name: Build and Push Docker Image
+        run: |
+          docker buildx create --use
+          docker buildx build --platform linux/amd64 -t gcr.io/taxi-manager-448921/taximanager-backend:latest .
+          docker push gcr.io/taxi-manager-448921/taximanager-backend:latest
+
+      - name: Deploy to Cloud Run
+        run: |
+          gcloud run deploy taximanager-backend \
+            --image gcr.io/taxi-manager-448921/taximanager-backend:latest \
+            --platform managed \
+            --region us-central1 \
+            --allow-unauthenticated \
+            --add-cloudsql-instances taxi-manager-448921:us-central1:taxi-manager \
+            --set-env-vars DATABASE_URL="postgres://postgres:mo}t9F%y(OAUYYGQ@/taxi-manager?host=/cloudsql/taxi-manager-448921:us-central1:taxi-manager"

@@ -12,8 +12,11 @@ SECRET_KEY = 'django-insecure-r(1f_fql4npzc3l!f)7^g%=&c8-3#p%s7r5g&6hn+he1y!wfca
 
 DEBUG = True
 ALLOWED_HOSTS = [
-    'https://backend-159812486596.us-central1.run.app',
-    'https://frontend-159812486596.us-central1.run.app'
+    'https://taximanager-backend-159812486596.us-central1.run.app',
+    'taximanager-backend-159812486596.us-central1.run.app',
+    'https://frontend-159812486596.us-central1.run.app',
+    'frontend-159812486596.us-central1.run.app',
+    '127.0.0.1'
 ]
 
 # Application definition
