@@ -11,3 +11,5 @@ sqlparse==0.5.3
 whitenoise==6.8.2
 
 python-dotenv~=1.0.1
+django-storages
+google-cloud-storage

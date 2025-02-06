@@ -1,18 +1,25 @@
 # Usa una imagen base de Python
 FROM python:3.12-slim
 
-# Establece el directorio de trabajo
+# Evita que Python genere archivos .pyc y bufferice la salida
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
+# Directorio de trabajo
 WORKDIR /app
 
-# Copia los archivos de requisitos e instala las dependencias
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+# Copia e instala dependencias
+COPY requirements.txt /app/
+RUN pip install --upgrade pip && pip install -r requirements.txt
 
-# Copia el resto del código
-COPY . .
+# Copia el código completo
+COPY . /app/
 
-# Expone el puerto 8080 (requerido por Cloud Run)
-EXPOSE 8080
+# Ejecuta collectstatic
+RUN python manage.py collectstatic --noinput
 
-# Comando para ejecutar la aplicación
-CMD ["gunicorn", "--bind", ":8080", "backend.wsgi:application"]
+# Expone el puerto (Cloud Run define la variable $PORT, habitualmente 8080)
+EXPOSE ${PORT}
+
+# Ejecuta la aplicación
+CMD ["gunicorn", "--bind", "0.0.0.0:8080", "backend.wsgi:application"]
