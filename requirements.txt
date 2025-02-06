@@ -13,3 +13,4 @@ whitenoise==6.8.2
 python-dotenv~=1.0.1
 django-storages
 google-cloud-storage
+django-environ==0.12.0

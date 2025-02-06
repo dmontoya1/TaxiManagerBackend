@@ -1,0 +1,33 @@
+steps:
+  # Paso 1: Construir y subir la imagen usando Buildx para forzar linux/amd64
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - "buildx"
+      - "build"
+      - "--platform"
+      - "linux/amd64"
+      - "--build-arg"
+      - "SECRET_KEY=django-insecure-r(1f_fql4npzc3l!f)7^g%=&c8-3#p%s7r5g&6hn+he1y!wfca"
+      - "-t"
+      - "gcr.io/taximanager-prod/taximanager-backend"
+      - "--push"
+      - "."
+
+  # Paso 2: Desplegar el servicio en Cloud Run usando gcloud
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: "bash"
+    args:
+      - "-c"
+      - |
+        gcloud run deploy taximanager-backend \
+          --image gcr.io/taximanager-prod/taximanager-backend \
+          --platform managed \
+          --region us-central1 \
+          --allow-unauthenticated \
+          --add-cloudsql-instances=taximanager-prod:us-central1:taximanager-db \
+          --update-env-vars=DJANGO_SETTINGS_MODULE="backend.settings.prod",CLOUD_SQL_CONNECTION_NAME="taximanager-prod:us-central1:taximanager-db",DB_NAME="taximanager",DB_USER="taxiuser",DEBUG=True,SECRET_KEY="django-insecure-r(1f_fql4npzc3l!f)7^g%=&c8-3#p%s7r5g&6hn+he1y!wfca" \
+          --update-secrets=DB_PASSWORD=DB_PASSWORD:latest
+
+# (Opcional) Declarar la imagen resultante para que aparezca en el panel de Cloud Build
+images:
+  - "gcr.io/taximanager-prod/taximanager-backend"

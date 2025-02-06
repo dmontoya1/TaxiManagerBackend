@@ -2,8 +2,8 @@
 FROM python:3.12-slim
 
 # Evita que Python genere archivos .pyc y bufferice la salida
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
 
 # Directorio de trabajo
 WORKDIR /app
@@ -15,8 +15,11 @@ RUN pip install --upgrade pip && pip install -r requirements.txt
 # Copia el código completo
 COPY . /app/
 
+ARG SECRET_KEY
+ENV SECRET_KEY=${SECRET_KEY}
+
 # Ejecuta collectstatic
-RUN python manage.py collectstatic --noinput
+# RUN python manage.py collectstatic --noinput
 
 # Expone el puerto (Cloud Run define la variable $PORT, habitualmente 8080)
 EXPOSE ${PORT}

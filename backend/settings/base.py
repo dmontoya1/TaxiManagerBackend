@@ -1,23 +1,21 @@
 import os
+import environ
 
 from datetime import timedelta
 from pathlib import Path
 
-from dotenv import load_dotenv
-load_dotenv()
+env = environ.Env(
+    # set casting, default value
+    DEBUG=(bool, True)
+)
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-r(1f_fql4npzc3l!f)7^g%=&c8-3#p%s7r5g&6hn+he1y!wfca'
+environ.Env.read_env(os.path.join(BASE_DIR, '../.env'))
 
-DEBUG = True
-ALLOWED_HOSTS = [
-    'https://taximanager-backend-159812486596.us-central1.run.app',
-    'taximanager-backend-159812486596.us-central1.run.app',
-    'https://frontend-159812486596.us-central1.run.app',
-    'frontend-159812486596.us-central1.run.app',
-    '127.0.0.1'
-]
+SECRET_KEY = env('SECRET_KEY')
+
+DEBUG = env('DEBUG')
 
 # Application definition
 
@@ -78,17 +76,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'backend.wsgi.application'
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "HOST": os.getenv("DATABASE_HOST"),
-        "NAME": os.getenv("DATABASE_NAME"),
-        "USER": os.getenv("DATABASE_USER"),
-        "PASSWORD": os.getenv("DATABASE_PASSWORD"),
-        "PORT": "5433",
-    }
-}
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -110,7 +97,7 @@ USE_I18N = True
 USE_TZ = True
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = os.path.join(BASE_DIR, '../../staticfiles')
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
@@ -141,10 +128,4 @@ CORS_ALLOWED_ORIGINS = [
 CORS_ALLOW_HEADERS = [
     'content-type',
     'authorization',
-]
-
-CSRF_TRUSTED_ORIGINS = [
-    'https://backend-159812486596.us-central1.run.app',
-    'https://frontend-159812486596.us-central1.run.app'
-    # Add other trusted origins if needed
 ]
